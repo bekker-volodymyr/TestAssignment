@@ -17,6 +17,8 @@ public class Enemy : MonoBehaviour
     public NavMeshAgent Agent => _agent;
     [SerializeField] private Animator _animator;
 
+    [SerializeField] private HealthBar _healthBar;
+
     private void Awake()
     {
         _stateMachine = new EnemyStateMachine();
@@ -75,6 +77,7 @@ public class Enemy : MonoBehaviour
 
         if (newHealth <= 0)
         {
+            _healthBar.SetValue(0f, _maxHealth);
             Death();
         }
         else
@@ -82,6 +85,7 @@ public class Enemy : MonoBehaviour
             Debug.Log($"New health {newHealth}");
 
             _currentHelath = newHealth;
+            _healthBar.SetValue(_currentHelath, _maxHealth);
         }
     }
 
