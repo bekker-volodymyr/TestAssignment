@@ -4,7 +4,6 @@ public class TurretShooter : MonoBehaviour
 {
     [SerializeField] private Transform _spawnPoint;
     [SerializeField] private ObjectPool _bullets;
-    // [SerializeField] private GameObject _bulletPrefab;
 
     [SerializeField] private float _fireRate = 0.8f;
     private float _timeSinceFire;
@@ -22,7 +21,6 @@ public class TurretShooter : MonoBehaviour
 
     private void SpawnBullet()
     {
-        // GameObject bullet = Instantiate(_bulletPrefab);
         GameObject bullet = _bullets.GetObject();
         bullet.transform.position = _spawnPoint.position;
         bullet.transform.rotation = _spawnPoint.rotation;

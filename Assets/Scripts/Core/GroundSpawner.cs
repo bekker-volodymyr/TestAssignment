@@ -9,10 +9,10 @@ public class GroundSpawner : MonoBehaviour
 
     [SerializeField] GameObject[] _groundSegments;
 
-    [SerializeField] EnemySpawner _enemySpawner;
-
     private void Start()
     {
+        _groundOffset = _groundSegments[0].GetComponentInChildren<MeshRenderer>().bounds.size.z;
+
         foreach (var segment in _groundSegments)
         {
             segment.GetComponent<GroundSegment>().FinishedSegmentEvent += OnSegmentPassed;
@@ -38,7 +38,6 @@ public class GroundSpawner : MonoBehaviour
         GameObject firstSegment = _groundSegments[0];
         firstSegment.transform.position += Vector3.forward * _groundOffset * _groundSegments.Length;
 
-        // Reorganize the array, central becomes first, first becomes last
         for (int i = 0; i < _groundSegments.Length - 1; i++)
         {
             _groundSegments[i] = _groundSegments[i + 1];

@@ -25,13 +25,11 @@ public class CarHealth : MonoBehaviour
         {
             _currentHealth = newHealth;
             _healthBar.SetValue(_currentHealth, _maxHealth);
-            Debug.Log($"Current car health: {_currentHealth}");
         }
     }
 
     private void Death()
     {
-        Debug.Log("LOOSE");
         Destroy(gameObject);
     }
 }

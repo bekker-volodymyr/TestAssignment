@@ -6,6 +6,6 @@ public class CarMovement : MonoBehaviour
 
     void Update()
     {
-        transform.Translate(0, 0, (_speed * Time.deltaTime * -1f));
+        transform.Translate(0, 0, (_speed * Time.deltaTime));
     }
 }

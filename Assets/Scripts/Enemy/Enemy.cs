@@ -31,13 +31,19 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
+        Debug.Log($"Postion on Start: {transform.position}");
+
         _stateMachine.Init(_idleState);
 
         _currentHelath = _maxHealth;
+
+        _healthBar.SetValue(_currentHelath, _maxHealth);
     }
 
     void Update()
     {
+        Debug.Log($"Position in Update: {transform.position}");
+
         _stateMachine.CurrentState.Update();
     }
 
@@ -59,6 +65,8 @@ public class Enemy : MonoBehaviour
     public void OnNoticeExit()
     {
         _stateMachine.ChangeState(_idleState);
+
+        Death();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -84,8 +92,6 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            Debug.Log($"New health {newHealth}");
-
             _currentHelath = newHealth;
             _healthBar.SetValue(_currentHelath, _maxHealth);
         }
@@ -93,7 +99,6 @@ public class Enemy : MonoBehaviour
 
     private void Death()
     {
-        // Destroy(gameObject);
         _pool.ReturnObject(gameObject);
     }
 

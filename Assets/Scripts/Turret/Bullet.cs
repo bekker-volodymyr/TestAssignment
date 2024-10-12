@@ -21,30 +21,25 @@ public class Bullet : MonoBehaviour
 
     void Update()
     {
-        // Move the bullet forward horizontally
         transform.Translate(Vector3.forward * _speed * Time.deltaTime, Space.Self);
 
-        // Lock Y position to prevent vertical movement
         Vector3 position = transform.position;
-        position.y = _posY; // Set the Y position you want
+        position.y = _posY;
         transform.position = position;
 
-        // Check if the bullet is off-screen
         if (IsOffScreen())
         {
-            _pool.ReturnObject(gameObject); // Return to pool if off-screen
+            _pool.ReturnObject(gameObject);
         }
     }
 
     private bool IsOffScreen()
     {
-        // Convert bullet's world position to viewport position
         Vector3 viewportPos = Camera.main.WorldToViewportPoint(transform.position);
 
-        // Check if bullet is outside the screen (viewport coordinates are outside [0, 1])
         if (viewportPos.x < 0 || viewportPos.x > 1 || viewportPos.y < 0 || viewportPos.y > 1)
         {
-            return true; // Bullet is off-screen
+            return true;
         }
 
         return false;
@@ -58,7 +53,6 @@ public class Bullet : MonoBehaviour
             if (enemy != null)
             {
                 enemy.GetDamage(_damageValue);
-                // Destroy(gameObject);
                 _pool.ReturnObject(gameObject);
             }
         }

@@ -18,8 +18,6 @@ public class EnemyIdle : EnemyStateBase
 
         _enemy.ChangeDestination(GetRandomPoint(_enemy.transform.position, _rangeMax));
         _enemy.ChangeAnimationState(0);
-
-        Debug.Log("Enter Idle State");
     }
 
     public override void ExitState()

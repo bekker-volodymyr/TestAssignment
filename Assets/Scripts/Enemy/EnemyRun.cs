@@ -15,8 +15,6 @@ public class EnemyRun : EnemyStateBase
         _enemy.ChangeAnimationState(1);
         _player = GameManager.Instance.Player;
         _enemy.ChangeDestination(_player.transform.position);
-
-        Debug.Log("Enter Run State");
     }
 
     public override void ExitState()

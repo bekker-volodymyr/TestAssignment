@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +8,8 @@ public class ObjectPool : MonoBehaviour
     [SerializeField] private int _initSize = 10;
 
     private Queue<GameObject> _pool = new Queue<GameObject>();
+
+    public event Action ObjectReturnedEvent;
 
     void Start()
     {
@@ -37,5 +40,6 @@ public class ObjectPool : MonoBehaviour
     {
         obj.SetActive(false);
         _pool.Enqueue(obj);
+        ObjectReturnedEvent?.Invoke();
     }
 }
