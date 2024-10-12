@@ -9,6 +9,8 @@ public class GroundSpawner : MonoBehaviour
 
     [SerializeField] GameObject[] _groundSegments;
 
+    [SerializeField] EnemySpawner _enemySpawner;
+
     private void Start()
     {
         foreach (var segment in _groundSegments)

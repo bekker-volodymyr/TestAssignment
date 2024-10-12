@@ -6,6 +6,8 @@ public class Enemy : MonoBehaviour
     private float _maxHealth = 100f;
     private float _currentHelath;
 
+    private ObjectPool _pool;
+
     private EnemyStateMachine _stateMachine;
 
     private EnemyIdle _idleState;
@@ -91,6 +93,12 @@ public class Enemy : MonoBehaviour
 
     private void Death()
     {
-        Destroy(gameObject);
+        // Destroy(gameObject);
+        _pool.ReturnObject(gameObject);
+    }
+
+    public void SetPool(ObjectPool pool)
+    {
+        _pool = pool;
     }
 }
