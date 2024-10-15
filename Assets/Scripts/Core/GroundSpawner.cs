@@ -1,13 +1,16 @@
+using System;
 using UnityEngine;
 
 public class GroundSpawner : MonoBehaviour
 {
     [SerializeField] private int _levelLength = 3;
-    private float _groundOffset = -105f;
+    private float _groundOffset;
 
     private int _segmentsPassed = 0;
 
     [SerializeField] GameObject[] _groundSegments;
+
+    public event Action LastSegmentPassed;
 
     private void Start()
     {
@@ -30,7 +33,14 @@ public class GroundSpawner : MonoBehaviour
     private void OnSegmentPassed()
     {
         _segmentsPassed++;
+
         MoveSegment();
+
+        if (_segmentsPassed == _levelLength)
+        {
+            _segmentsPassed = 0;
+            LastSegmentPassed?.Invoke();
+        }
     }
 
     private void MoveSegment()

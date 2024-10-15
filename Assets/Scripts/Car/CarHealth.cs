@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class CarHealth : MonoBehaviour
@@ -7,9 +8,17 @@ public class CarHealth : MonoBehaviour
 
     [SerializeField] private HealthBar _healthBar;
 
+    public event Action CarDeathEvent;
+
     private void Start()
     {
+        Reset();
+    }
+
+    public void Reset()
+    {
         _currentHealth = _maxHealth;
+        _healthBar.SetValue(_currentHealth, _maxHealth);
     }
 
     public void GetDamage(float damageValue)
@@ -30,6 +39,7 @@ public class CarHealth : MonoBehaviour
 
     private void Death()
     {
-        Destroy(gameObject);
+        CarDeathEvent?.Invoke();
+        // Destroy(gameObject);
     }
 }

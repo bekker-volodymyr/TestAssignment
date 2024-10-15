@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -9,19 +10,14 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float _spawnRangeX = 25f;      // Range for random X position when spawn
     [SerializeField] private ObjectPool _enemies;
 
+    private List<GameObject> _spawnedEnemies = new List<GameObject>();
+
     private int _spawnCount = 0;
     private int _maxSpawnCount = 25;
 
     private void Start()
     {
-        _enemies.ObjectReturnedEvent += OnReturnedToPool;
-
         StartCoroutine(SpawnCoroutine());
-    }
-
-    private void OnDestroy()
-    {
-        _enemies.ObjectReturnedEvent -= OnReturnedToPool;
     }
 
     private IEnumerator SpawnCoroutine()
@@ -37,7 +33,7 @@ public class EnemySpawner : MonoBehaviour
     private void SpawnEnemy()
     {
         Enemy enemy = _enemies.GetObject().GetComponent<Enemy>();
-        enemy.SetPool(_enemies);
+        enemy.SetSpawner(this);
         Vector3 spawnPoint = GameManager.Instance.Player.transform.position;
         spawnPoint += Vector3.forward * _spawnDistance;
         spawnPoint += Vector3.left * Random.Range(-_spawnRangeX, _spawnRangeX);
@@ -45,14 +41,27 @@ public class EnemySpawner : MonoBehaviour
         NavMeshHit hit;
         if (NavMesh.SamplePosition(spawnPoint, out hit, _spawnDistance, NavMesh.AllAreas))
         {
-            Debug.Log($"Spawn Point Hit: {hit.position}");
             enemy.Agent.Warp(hit.position);
             _spawnCount++;
         }
+
+        enemy.InitEnemy();
+
+        _spawnedEnemies.Add(enemy.gameObject);
     }
 
-    private void OnReturnedToPool()
+    public void Reset()
     {
-        _spawnCount--;
+        foreach (var enemy in _spawnedEnemies)
+        {
+            _enemies.ReturnObject(enemy.gameObject);
+        }
+        _spawnedEnemies.Clear();
+    }
+
+    internal void ReturnEnemy(Enemy enemy)
+    {
+        _spawnedEnemies.Remove(enemy.gameObject);
+        _enemies.ReturnObject(enemy.gameObject);
     }
 }

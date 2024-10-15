@@ -5,7 +5,7 @@ public class Bullet : MonoBehaviour
     [SerializeField] private float _speed = 7f;
     [SerializeField] private float _damageValue = 50f;
 
-    private ObjectPool _pool;
+    private TurretShooter _turret;
 
     private float _posY;
 
@@ -14,9 +14,9 @@ public class Bullet : MonoBehaviour
         _posY = transform.position.y;
     }
 
-    public void SetPool(ObjectPool pool)
+    public void SetTurret(TurretShooter turret)
     {
-        _pool = pool;
+        _turret = turret;
     }
 
     void Update()
@@ -29,7 +29,7 @@ public class Bullet : MonoBehaviour
 
         if (IsOffScreen())
         {
-            _pool.ReturnObject(gameObject);
+            _turret.ReturnBullet(this);
         }
     }
 
@@ -53,7 +53,7 @@ public class Bullet : MonoBehaviour
             if (enemy != null)
             {
                 enemy.GetDamage(_damageValue);
-                _pool.ReturnObject(gameObject);
+                _turret.ReturnBullet(this);
             }
         }
     }

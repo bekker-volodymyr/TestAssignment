@@ -9,7 +9,7 @@ public class ObjectPool : MonoBehaviour
 
     private Queue<GameObject> _pool = new Queue<GameObject>();
 
-    public event Action ObjectReturnedEvent;
+    public event Action<GameObject> ObjectReturnedEvent;
 
     void Start()
     {
@@ -40,6 +40,6 @@ public class ObjectPool : MonoBehaviour
     {
         obj.SetActive(false);
         _pool.Enqueue(obj);
-        ObjectReturnedEvent?.Invoke();
+        ObjectReturnedEvent?.Invoke(obj);
     }
 }

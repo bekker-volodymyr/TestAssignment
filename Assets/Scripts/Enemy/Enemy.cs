@@ -8,6 +8,8 @@ public class Enemy : MonoBehaviour
 
     private ObjectPool _pool;
 
+    private EnemySpawner _spawner;
+
     private EnemyStateMachine _stateMachine;
 
     private EnemyIdle _idleState;
@@ -31,8 +33,11 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
-        Debug.Log($"Postion on Start: {transform.position}");
+        InitEnemy();
+    }
 
+    public void InitEnemy()
+    {
         _stateMachine.Init(_idleState);
 
         _currentHelath = _maxHealth;
@@ -42,8 +47,6 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        Debug.Log($"Position in Update: {transform.position}");
-
         _stateMachine.CurrentState.Update();
     }
 
@@ -99,11 +102,11 @@ public class Enemy : MonoBehaviour
 
     private void Death()
     {
-        _pool.ReturnObject(gameObject);
+        _spawner.ReturnEnemy(this);
     }
 
-    public void SetPool(ObjectPool pool)
+    public void SetSpawner(EnemySpawner spawner)
     {
-        _pool = pool;
+        _spawner = spawner;
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class TurretShooter : MonoBehaviour
@@ -7,6 +8,8 @@ public class TurretShooter : MonoBehaviour
 
     [SerializeField] private float _fireRate = 0.8f;
     private float _timeSinceFire;
+
+    private List<GameObject> _spawnedBullets = new List<GameObject>();
 
     private void Update()
     {
@@ -25,6 +28,23 @@ public class TurretShooter : MonoBehaviour
         bullet.transform.position = _spawnPoint.position;
         bullet.transform.rotation = _spawnPoint.rotation;
 
-        bullet.GetComponent<Bullet>().SetPool(_bullets);
+        _spawnedBullets.Add(bullet);
+
+        bullet.GetComponent<Bullet>().SetTurret(this);
+    }
+
+    public void Reset()
+    {
+        foreach (var bullet in _spawnedBullets)
+        {
+            _bullets.ReturnObject(bullet);
+        }
+        _spawnedBullets.Clear();
+    }
+
+    internal void ReturnBullet(Bullet bullet)
+    {
+        _spawnedBullets.Remove(bullet.gameObject);
+        _bullets.ReturnObject(bullet.gameObject);
     }
 }
