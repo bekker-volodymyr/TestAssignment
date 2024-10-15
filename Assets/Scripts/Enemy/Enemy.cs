@@ -1,6 +1,5 @@
 using TestAssignment.Car;
 using TestAssignment.UI;
-using TestAssignment.Utils;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -11,14 +10,14 @@ namespace TestAssignment.Enemies
         private float _maxHealth = 100f;
         private float _currentHelath;
 
-        private ObjectPool _pool;
+        private EnemyPool _pool;
 
         private EnemySpawner _spawner;
 
         private EnemyStateMachine _stateMachine;
 
-        private EnemyIdle _idleState;
-        private EnemyRun _runState;
+        private EnemyIdleState _idleState;
+        private EnemyRunState _runState;
 
         [SerializeField] private float _damageValue = 20f;
 
@@ -32,8 +31,8 @@ namespace TestAssignment.Enemies
         {
             _stateMachine = new EnemyStateMachine();
 
-            _idleState = new EnemyIdle(this, _stateMachine);
-            _runState = new EnemyRun(this, _stateMachine);
+            _idleState = new EnemyIdleState(this, _stateMachine);
+            _runState = new EnemyRunState(this, _stateMachine);
         }
 
         void Start()

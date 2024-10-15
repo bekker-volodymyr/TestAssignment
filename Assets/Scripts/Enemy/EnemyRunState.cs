@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace TestAssignment.Enemies
 {
-    public class EnemyRun : EnemyStateBase
+    public class EnemyRunState : EnemyStateBase
     {
         private GameObject _player;
 
-        public EnemyRun(Enemy enemy, EnemyStateMachine stateMachine) : base(enemy, stateMachine)
+        public EnemyRunState(Enemy enemy, EnemyStateMachine stateMachine) : base(enemy, stateMachine)
         {
         }
 

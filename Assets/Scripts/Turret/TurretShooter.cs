@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using TestAssignment.Utils;
 using UnityEngine;
 
 namespace TestAssignment.Turret
@@ -7,12 +6,12 @@ namespace TestAssignment.Turret
     public class TurretShooter : MonoBehaviour
     {
         [SerializeField] private Transform _spawnPoint;
-        [SerializeField] private ObjectPool _bullets;
+        [SerializeField] private BulletsPool _bulletsPool;
 
         [SerializeField] private float _fireRate = 0.8f;
         private float _timeSinceFire;
 
-        private List<GameObject> _spawnedBullets = new List<GameObject>();
+        private List<Bullet> _spawnedBullets = new List<Bullet>();
 
         private void Update()
         {
@@ -27,28 +26,28 @@ namespace TestAssignment.Turret
 
         private void SpawnBullet()
         {
-            GameObject bullet = _bullets.GetObject();
+            Bullet bullet = _bulletsPool.GetObject();
             bullet.transform.position = _spawnPoint.position;
             bullet.transform.rotation = _spawnPoint.rotation;
 
             _spawnedBullets.Add(bullet);
 
-            bullet.GetComponent<Bullet>().SetTurret(this);
+            bullet.SetTurret(this);
         }
 
         public void Reset()
         {
             foreach (var bullet in _spawnedBullets)
             {
-                _bullets.ReturnObject(bullet);
+                _bulletsPool.ReturnObject(bullet);
             }
             _spawnedBullets.Clear();
         }
 
         internal void ReturnBullet(Bullet bullet)
         {
-            _spawnedBullets.Remove(bullet.gameObject);
-            _bullets.ReturnObject(bullet.gameObject);
+            _spawnedBullets.Remove(bullet);
+            _bulletsPool.ReturnObject(bullet);
         }
     }
 }

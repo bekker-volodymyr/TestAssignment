@@ -9,11 +9,11 @@ namespace TestAssignment.Enemies
     public class EnemySpawner : MonoBehaviour
     {
         [SerializeField] private float _spawnRate = 1.4f;
-        [SerializeField] private float _spawnDistance = 75f;   // Distance from player when spawn
-        [SerializeField] private float _spawnRangeX = 25f;      // Range for random X position when spawn
-        [SerializeField] private ObjectPool _enemies;
+        [SerializeField] private float _spawnDistance = 75f;    // Distance from player when spawn
+        [SerializeField] private float _spawnRandRangeX = 25f;
+        [SerializeField] private EnemyPool _enemyPool;
 
-        private List<GameObject> _spawnedEnemies = new List<GameObject>();
+        private List<Enemy> _spawnedEnemies = new List<Enemy>();
 
         private int _spawnCount = 0;
         private int _maxSpawnCount = 25;
@@ -35,11 +35,11 @@ namespace TestAssignment.Enemies
 
         private void SpawnEnemy()
         {
-            Enemy enemy = _enemies.GetObject().GetComponent<Enemy>();
+            Enemy enemy = _enemyPool.GetObject();
             enemy.SetSpawner(this);
             Vector3 spawnPoint = GameManager.Instance.Player.transform.position;
             spawnPoint += Vector3.forward * _spawnDistance;
-            spawnPoint += Vector3.left * Random.Range(-_spawnRangeX, _spawnRangeX);
+            spawnPoint += Vector3.left * Random.Range(-_spawnRandRangeX, _spawnRandRangeX);
 
             NavMeshHit hit;
             if (NavMesh.SamplePosition(spawnPoint, out hit, _spawnDistance, NavMesh.AllAreas))
@@ -50,22 +50,23 @@ namespace TestAssignment.Enemies
 
             enemy.InitEnemy();
 
-            _spawnedEnemies.Add(enemy.gameObject);
+            _spawnedEnemies.Add(enemy);
         }
 
         public void Reset()
         {
             foreach (var enemy in _spawnedEnemies)
             {
-                _enemies.ReturnObject(enemy.gameObject);
+                _enemyPool.ReturnObject(enemy);
             }
             _spawnedEnemies.Clear();
         }
 
-        internal void ReturnEnemy(Enemy enemy)
+        public void ReturnEnemy(Enemy enemy)
         {
-            _spawnedEnemies.Remove(enemy.gameObject);
-            _enemies.ReturnObject(enemy.gameObject);
+            _spawnedEnemies.Remove(enemy);
+            _enemyPool.ReturnObject(enemy);
+            _spawnCount--;
         }
     }
 }
