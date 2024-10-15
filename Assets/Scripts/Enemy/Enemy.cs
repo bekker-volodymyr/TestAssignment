@@ -74,8 +74,6 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.gameObject);
-
         if (other.CompareTag("Player"))
         {
             CarHealth car = other.GetComponentInParent<CarHealth>();

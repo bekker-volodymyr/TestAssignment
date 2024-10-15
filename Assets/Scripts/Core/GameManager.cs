@@ -72,11 +72,14 @@ public class GameManager : MonoBehaviour
     private void SetStartingState()
     {
         PauseGame();
+
+        _state = GameState.Starting;
+
         _enemySpawner.Reset();
         _turretShooter.Reset();
         _carHelath.Reset();
+
         _mainUI.gameObject.SetActive(true);
-        _state = GameState.Starting;
         _mainUI.SetStartingState();
     }
 
