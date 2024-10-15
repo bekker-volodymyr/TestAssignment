@@ -1,17 +1,21 @@
-public class EnemyStateMachine
+
+namespace TestAssignment.Enemies
 {
-    public EnemyStateBase CurrentState { get; private set; }
-
-    public void Init(EnemyStateBase startState)
+    public class EnemyStateMachine
     {
-        CurrentState = startState;
-        CurrentState.EnterState();
-    }
+        public EnemyStateBase CurrentState { get; private set; }
 
-    public void ChangeState(EnemyStateBase newState)
-    {
-        CurrentState.ExitState();
-        CurrentState = newState;
-        CurrentState.EnterState();
+        public void Init(EnemyStateBase startState)
+        {
+            CurrentState = startState;
+            CurrentState.EnterState();
+        }
+
+        public void ChangeState(EnemyStateBase newState)
+        {
+            CurrentState.ExitState();
+            CurrentState = newState;
+            CurrentState.EnterState();
+        }
     }
 }

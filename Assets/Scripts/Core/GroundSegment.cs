@@ -1,15 +1,18 @@
 using System;
 using UnityEngine;
 
-public class GroundSegment : MonoBehaviour
+namespace TestAssignment.Ground
 {
-    public event Action FinishedSegmentEvent;
-
-    private void OnTriggerEnter(Collider other)
+    public class GroundSegment : MonoBehaviour
     {
-        if (other.CompareTag("Player"))
+        public event Action FinishedSegmentEvent;
+
+        private void OnTriggerEnter(Collider other)
         {
-            FinishedSegmentEvent?.Invoke();
+            if (other.CompareTag("Player"))
+            {
+                FinishedSegmentEvent?.Invoke();
+            }
         }
     }
 }

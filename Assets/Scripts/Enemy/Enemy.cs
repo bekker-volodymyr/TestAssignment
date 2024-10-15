@@ -1,110 +1,116 @@
+using TestAssignment.Car;
+using TestAssignment.UI;
+using TestAssignment.Utils;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Enemy : MonoBehaviour
+namespace TestAssignment.Enemies
 {
-    private float _maxHealth = 100f;
-    private float _currentHelath;
-
-    private ObjectPool _pool;
-
-    private EnemySpawner _spawner;
-
-    private EnemyStateMachine _stateMachine;
-
-    private EnemyIdle _idleState;
-    private EnemyRun _runState;
-
-    [SerializeField] private float _damageValue = 20f;
-
-    [SerializeField] private NavMeshAgent _agent;
-    public NavMeshAgent Agent => _agent;
-    [SerializeField] private Animator _animator;
-
-    [SerializeField] private HealthBar _healthBar;
-
-    private void Awake()
+    public class Enemy : MonoBehaviour
     {
-        _stateMachine = new EnemyStateMachine();
+        private float _maxHealth = 100f;
+        private float _currentHelath;
 
-        _idleState = new EnemyIdle(this, _stateMachine);
-        _runState = new EnemyRun(this, _stateMachine);
-    }
+        private ObjectPool _pool;
 
-    void Start()
-    {
-        InitEnemy();
-    }
+        private EnemySpawner _spawner;
 
-    public void InitEnemy()
-    {
-        _stateMachine.Init(_idleState);
+        private EnemyStateMachine _stateMachine;
 
-        _currentHelath = _maxHealth;
+        private EnemyIdle _idleState;
+        private EnemyRun _runState;
 
-        _healthBar.SetValue(_currentHelath, _maxHealth);
-    }
+        [SerializeField] private float _damageValue = 20f;
 
-    void Update()
-    {
-        _stateMachine.CurrentState.Update();
-    }
+        [SerializeField] private NavMeshAgent _agent;
+        public NavMeshAgent Agent => _agent;
+        [SerializeField] private Animator _animator;
 
-    public void ChangeDestination(Vector3 destination)
-    {
-        _agent.SetDestination(destination);
-    }
+        [SerializeField] private HealthBar _healthBar;
 
-    public void ChangeAnimationState(int state)
-    {
-        _animator.SetInteger("State", state);
-    }
-
-    public void OnNoticeEnter()
-    {
-        _stateMachine.ChangeState(_runState);
-    }
-
-    public void OnNoticeExit()
-    {
-        _stateMachine.ChangeState(_idleState);
-
-        Death();
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
+        private void Awake()
         {
-            CarHealth car = other.GetComponentInParent<CarHealth>();
-            car.GetDamage(_damageValue);
-            Death();
+            _stateMachine = new EnemyStateMachine();
+
+            _idleState = new EnemyIdle(this, _stateMachine);
+            _runState = new EnemyRun(this, _stateMachine);
         }
-    }
 
-    public void GetDamage(float damageValue)
-    {
-        float newHealth = _currentHelath - damageValue;
-
-        if (newHealth <= 0)
+        void Start()
         {
-            _healthBar.SetValue(0f, _maxHealth);
-            Death();
+            InitEnemy();
         }
-        else
+
+        public void InitEnemy()
         {
-            _currentHelath = newHealth;
+            _stateMachine.Init(_idleState);
+
+            _currentHelath = _maxHealth;
+
             _healthBar.SetValue(_currentHelath, _maxHealth);
         }
-    }
 
-    private void Death()
-    {
-        _spawner.ReturnEnemy(this);
-    }
+        void Update()
+        {
+            _stateMachine.CurrentState.Update();
+        }
 
-    public void SetSpawner(EnemySpawner spawner)
-    {
-        _spawner = spawner;
+        public void ChangeDestination(Vector3 destination)
+        {
+            _agent.SetDestination(destination);
+        }
+
+        public void ChangeAnimationState(int state)
+        {
+            _animator.SetInteger("State", state);
+        }
+
+        public void OnNoticeEnter()
+        {
+            _stateMachine.ChangeState(_runState);
+        }
+
+        public void OnNoticeExit()
+        {
+            _stateMachine.ChangeState(_idleState);
+
+            Death();
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Player"))
+            {
+                CarHealth car = other.GetComponentInParent<CarHealth>();
+                car.GetDamage(_damageValue);
+                Death();
+            }
+        }
+
+        public void GetDamage(float damageValue)
+        {
+            float newHealth = _currentHelath - damageValue;
+
+            if (newHealth <= 0)
+            {
+                _healthBar.SetValue(0f, _maxHealth);
+                Death();
+            }
+            else
+            {
+                _currentHelath = newHealth;
+                _healthBar.SetValue(_currentHelath, _maxHealth);
+            }
+        }
+
+        private void Death()
+        {
+            _spawner.ReturnEnemy(this);
+        }
+
+        public void SetSpawner(EnemySpawner spawner)
+        {
+            _spawner = spawner;
+        }
     }
 }

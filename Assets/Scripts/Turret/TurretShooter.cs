@@ -1,50 +1,54 @@
 using System.Collections.Generic;
+using TestAssignment.Utils;
 using UnityEngine;
 
-public class TurretShooter : MonoBehaviour
+namespace TestAssignment.Turret
 {
-    [SerializeField] private Transform _spawnPoint;
-    [SerializeField] private ObjectPool _bullets;
-
-    [SerializeField] private float _fireRate = 0.8f;
-    private float _timeSinceFire;
-
-    private List<GameObject> _spawnedBullets = new List<GameObject>();
-
-    private void Update()
+    public class TurretShooter : MonoBehaviour
     {
-        _timeSinceFire -= Time.deltaTime;
+        [SerializeField] private Transform _spawnPoint;
+        [SerializeField] private ObjectPool _bullets;
 
-        if (_timeSinceFire <= 0)
+        [SerializeField] private float _fireRate = 0.8f;
+        private float _timeSinceFire;
+
+        private List<GameObject> _spawnedBullets = new List<GameObject>();
+
+        private void Update()
         {
-            SpawnBullet();
-            _timeSinceFire = _fireRate;
+            _timeSinceFire -= Time.deltaTime;
+
+            if (_timeSinceFire <= 0)
+            {
+                SpawnBullet();
+                _timeSinceFire = _fireRate;
+            }
         }
-    }
 
-    private void SpawnBullet()
-    {
-        GameObject bullet = _bullets.GetObject();
-        bullet.transform.position = _spawnPoint.position;
-        bullet.transform.rotation = _spawnPoint.rotation;
-
-        _spawnedBullets.Add(bullet);
-
-        bullet.GetComponent<Bullet>().SetTurret(this);
-    }
-
-    public void Reset()
-    {
-        foreach (var bullet in _spawnedBullets)
+        private void SpawnBullet()
         {
-            _bullets.ReturnObject(bullet);
-        }
-        _spawnedBullets.Clear();
-    }
+            GameObject bullet = _bullets.GetObject();
+            bullet.transform.position = _spawnPoint.position;
+            bullet.transform.rotation = _spawnPoint.rotation;
 
-    internal void ReturnBullet(Bullet bullet)
-    {
-        _spawnedBullets.Remove(bullet.gameObject);
-        _bullets.ReturnObject(bullet.gameObject);
+            _spawnedBullets.Add(bullet);
+
+            bullet.GetComponent<Bullet>().SetTurret(this);
+        }
+
+        public void Reset()
+        {
+            foreach (var bullet in _spawnedBullets)
+            {
+                _bullets.ReturnObject(bullet);
+            }
+            _spawnedBullets.Clear();
+        }
+
+        internal void ReturnBullet(Bullet bullet)
+        {
+            _spawnedBullets.Remove(bullet.gameObject);
+            _bullets.ReturnObject(bullet.gameObject);
+        }
     }
 }

@@ -1,36 +1,40 @@
+using TestAssignment.Utils;
 using UnityEngine;
 
-public class EnemyRun : EnemyStateBase
+namespace TestAssignment.Enemies
 {
-    private GameObject _player;
-
-    public EnemyRun(Enemy enemy, EnemyStateMachine stateMachine) : base(enemy, stateMachine)
+    public class EnemyRun : EnemyStateBase
     {
-    }
+        private GameObject _player;
 
-    public override void EnterState()
-    {
-        base.EnterState();
+        public EnemyRun(Enemy enemy, EnemyStateMachine stateMachine) : base(enemy, stateMachine)
+        {
+        }
 
-        _enemy.ChangeAnimationState(1);
-        _player = GameManager.Instance.Player;
-        _enemy.ChangeDestination(_player.transform.position);
-    }
+        public override void EnterState()
+        {
+            base.EnterState();
 
-    public override void ExitState()
-    {
-        base.ExitState();
-    }
+            _enemy.ChangeAnimationState(1);
+            _player = GameManager.Instance.Player;
+            _enemy.ChangeDestination(_player.transform.position);
+        }
 
-    public override void ResetState()
-    {
-        base.ResetState();
-    }
+        public override void ExitState()
+        {
+            base.ExitState();
+        }
 
-    public override void Update()
-    {
-        base.Update();
+        public override void ResetState()
+        {
+            base.ResetState();
+        }
 
-        _enemy.ChangeDestination(_player.transform.position);
+        public override void Update()
+        {
+            base.Update();
+
+            _enemy.ChangeDestination(_player.transform.position);
+        }
     }
 }

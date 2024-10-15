@@ -1,20 +1,23 @@
 using UnityEngine;
 
-public class TurretRotate : MonoBehaviour
+namespace TestAssignment.Turret
 {
-    [SerializeField] private float _rotationSpeed = 0.1f;
-
-    void Update()
+    public class TurretRotate : MonoBehaviour
     {
-        if (Input.touchCount > 0)
+        [SerializeField] private float _rotationSpeed = 0.1f;
+
+        void Update()
         {
-            Touch touch = Input.GetTouch(0);
-
-            if (touch.phase == TouchPhase.Moved)
+            if (Input.touchCount > 0)
             {
-                float horizontalMovement = touch.deltaPosition.x;
+                Touch touch = Input.GetTouch(0);
 
-                transform.Rotate(0f, horizontalMovement * _rotationSpeed, 0f);
+                if (touch.phase == TouchPhase.Moved)
+                {
+                    float horizontalMovement = touch.deltaPosition.x;
+
+                    transform.Rotate(0f, horizontalMovement * _rotationSpeed, 0f);
+                }
             }
         }
     }

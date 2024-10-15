@@ -1,16 +1,20 @@
-public class EnemyStateBase
+
+namespace TestAssignment.Enemies
 {
-    protected Enemy _enemy;
-    protected EnemyStateMachine _stateMachine;
-
-    public EnemyStateBase(Enemy enemy, EnemyStateMachine stateMachine)
+    public class EnemyStateBase
     {
-        _enemy = enemy;
-        _stateMachine = stateMachine;
-    }
+        protected Enemy _enemy;
+        protected EnemyStateMachine _stateMachine;
 
-    public virtual void EnterState() { }
-    public virtual void ExitState() { ResetState(); }
-    public virtual void Update() { }
-    public virtual void ResetState() { }
+        public EnemyStateBase(Enemy enemy, EnemyStateMachine stateMachine)
+        {
+            _enemy = enemy;
+            _stateMachine = stateMachine;
+        }
+
+        public virtual void EnterState() { }
+        public virtual void ExitState() { ResetState(); }
+        public virtual void Update() { }
+        public virtual void ResetState() { }
+    }
 }

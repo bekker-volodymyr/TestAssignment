@@ -1,45 +1,49 @@
 using System;
+using TestAssignment.UI;
 using UnityEngine;
 
-public class CarHealth : MonoBehaviour
+namespace TestAssignment.Car
 {
-    private float _maxHealth = 100f;
-    private float _currentHealth;
-
-    [SerializeField] private HealthBar _healthBar;
-
-    public event Action CarDeathEvent;
-
-    private void Start()
+    public class CarHealth : MonoBehaviour
     {
-        Reset();
-    }
+        private float _maxHealth = 100f;
+        private float _currentHealth;
 
-    public void Reset()
-    {
-        _currentHealth = _maxHealth;
-        _healthBar.SetValue(_currentHealth, _maxHealth);
-    }
+        [SerializeField] private HealthBar _healthBar;
 
-    public void GetDamage(float damageValue)
-    {
-        float newHealth = _currentHealth - damageValue;
-        if (newHealth <= 0)
+        public event Action CarDeathEvent;
+
+        private void Start()
         {
-            _healthBar.SetValue(0, _maxHealth);
-
-            Death();
+            Reset();
         }
-        else
+
+        public void Reset()
         {
-            _currentHealth = newHealth;
+            _currentHealth = _maxHealth;
             _healthBar.SetValue(_currentHealth, _maxHealth);
         }
-    }
 
-    private void Death()
-    {
-        CarDeathEvent?.Invoke();
-        // Destroy(gameObject);
+        public void GetDamage(float damageValue)
+        {
+            float newHealth = _currentHealth - damageValue;
+            if (newHealth <= 0)
+            {
+                _healthBar.SetValue(0, _maxHealth);
+
+                Death();
+            }
+            else
+            {
+                _currentHealth = newHealth;
+                _healthBar.SetValue(_currentHealth, _maxHealth);
+            }
+        }
+
+        private void Death()
+        {
+            CarDeathEvent?.Invoke();
+            // Destroy(gameObject);
+        }
     }
 }

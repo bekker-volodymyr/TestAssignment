@@ -3,60 +3,63 @@ using System;
 using TMPro;
 using UnityEngine;
 
-public class MainUI : MonoBehaviour
+namespace TestAssignment.UI
 {
-    [SerializeField] private TextMeshProUGUI _textTMP;
-
-    private const string _startText = "TAP TO START";
-    private const string _winText = "YOU WON!";
-    private const string _looseText = "YOU LOST!";
-
-    private float _fadeDuration = 0.7f;
-
-    private float _scaleMin = 0.8f;
-    private float _scaleMax = 1.2f;
-    private float _pulseDuration = 0.5f;
-
-    public event Action TapEvent;
-
-    public void SetStartingState()
+    public class MainUI : MonoBehaviour
     {
-        _textTMP.text = _startText;
-        _textTMP.color = Color.white;
+        [SerializeField] private TextMeshProUGUI _textTMP;
 
-        DoAppear();
-    }
+        private const string _startText = "TAP TO START";
+        private const string _winText = "YOU WON!";
+        private const string _looseText = "YOU LOST!";
 
-    internal void SetFinishedState(bool isWin)
-    {
-        _textTMP.text = isWin ? _winText : _looseText;
-        _textTMP.color = isWin ? Color.green : Color.red;
+        private float _fadeDuration = 0.7f;
 
-        DoAppear();
-    }
+        private float _scaleMin = 0.8f;
+        private float _scaleMax = 1.2f;
+        private float _pulseDuration = 0.5f;
 
-    void Update()
-    {
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+        public event Action TapEvent;
+
+        public void SetStartingState()
         {
-            TapEvent?.Invoke();
-        }
-    }
+            _textTMP.text = _startText;
+            _textTMP.color = Color.white;
 
-    public void DoAppear()
-    {
-        _textTMP.alpha = 0f;
-        _textTMP.transform.localScale = Vector3.one;
-        _textTMP.DOFade(1f, _fadeDuration)
-            .SetUpdate(true)
-            .SetEase(Ease.OutSine)
-            .OnComplete(() =>
+            DoAppear();
+        }
+
+        internal void SetFinishedState(bool isWin)
+        {
+            _textTMP.text = isWin ? _winText : _looseText;
+            _textTMP.color = isWin ? Color.green : Color.red;
+
+            DoAppear();
+        }
+
+        void Update()
+        {
+            if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
             {
-                _textTMP.transform.DOScale(_scaleMax, _pulseDuration)
-                .SetEase(Ease.InOutSine)
-                .SetLoops(-1, LoopType.Yoyo)
-                .SetUpdate(true);
+                TapEvent?.Invoke();
             }
-    );
+        }
+
+        public void DoAppear()
+        {
+            _textTMP.alpha = 0f;
+            _textTMP.transform.localScale = Vector3.one;
+            _textTMP.DOFade(1f, _fadeDuration)
+                .SetUpdate(true)
+                .SetEase(Ease.OutSine)
+                .OnComplete(() =>
+                {
+                    _textTMP.transform.DOScale(_scaleMax, _pulseDuration)
+                    .SetEase(Ease.InOutSine)
+                    .SetLoops(-1, LoopType.Yoyo)
+                    .SetUpdate(true);
+                }
+        );
+        }
     }
 }

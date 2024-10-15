@@ -1,22 +1,25 @@
 using UnityEngine;
 
-public class NoticeTriggerCheck : MonoBehaviour
+namespace TestAssignment.Enemies
 {
-    [SerializeField] private Enemy _enemy;
-
-    private void OnTriggerEnter(Collider other)
+    public class NoticeTriggerCheck : MonoBehaviour
     {
-        if (other.CompareTag("Player"))
+        [SerializeField] private Enemy _enemy;
+
+        private void OnTriggerEnter(Collider other)
         {
-            _enemy.OnNoticeEnter();
+            if (other.CompareTag("Player"))
+            {
+                _enemy.OnNoticeEnter();
+            }
         }
-    }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
+        private void OnTriggerExit(Collider other)
         {
-            _enemy.OnNoticeExit();
+            if (other.CompareTag("Player"))
+            {
+                _enemy.OnNoticeExit();
+            }
         }
     }
 }
