@@ -326,6 +326,7 @@ MonoBehaviour:
   _agent: {fileID: 6444555763294359819}
   _animator: {fileID: 929959338565717746}
   _healthBar: {fileID: 3721614080935037013}
+  _deathParticles: {fileID: 0}
 --- !u!195 &6444555763294359819
 NavMeshAgent:
   m_ObjectHideFlags: 0
