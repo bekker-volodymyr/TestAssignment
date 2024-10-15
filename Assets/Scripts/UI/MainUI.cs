@@ -7,9 +7,9 @@ public class MainUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _textTMP;
 
-    private string _startText = "TAP TO START";
-    private string _winText = "YOU WON!";
-    private string _looseText = "YOU LOST!";
+    private const string _startText = "TAP TO START";
+    private const string _winText = "YOU WON!";
+    private const string _looseText = "YOU LOST!";
 
     private float _fadeDuration = 0.7f;
 
