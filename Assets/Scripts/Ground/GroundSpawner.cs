@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace TestAssignment.Ground
 {
-    public class GroundManager : MonoBehaviour
+    public class GroundSpawner : MonoBehaviour
     {
         [SerializeField] private int _levelLength = 3;
         private float _groundOffset;
@@ -56,11 +56,6 @@ namespace TestAssignment.Ground
             }
 
             _groundSegments[_groundSegments.Length - 1] = firstSegment;
-        }
-
-        public void Reset()
-        {
-            _segmentsPassed = 0;
         }
     }
 }

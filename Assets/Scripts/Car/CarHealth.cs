@@ -1,5 +1,4 @@
 using System;
-using TestAssignment.Effects;
 using TestAssignment.UI;
 using UnityEngine;
 
@@ -21,8 +20,6 @@ namespace TestAssignment.Car
 
         public void Reset()
         {
-            gameObject.SetActive(true);
-
             _currentHealth = _maxHealth;
             _healthBar.SetValue(_currentHealth, _maxHealth);
         }
@@ -45,11 +42,8 @@ namespace TestAssignment.Car
 
         private void Death()
         {
-            ParticleManager.Instance.PlayParticle(ParticleType.CarExplosion, transform.position);
-
-            gameObject.SetActive(false);
-
             CarDeathEvent?.Invoke();
+            // Destroy(gameObject);
         }
     }
 }

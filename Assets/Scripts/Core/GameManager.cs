@@ -18,7 +18,7 @@ namespace TestAssignment.Utils
 
         [SerializeField] private MainUI _mainUI;
 
-        [SerializeField] private GroundManager _groundSpawner;
+        [SerializeField] private GroundSpawner _groundSpawner;
 
         [SerializeField] private EnemySpawner _enemySpawner;
 
@@ -69,7 +69,6 @@ namespace TestAssignment.Utils
         private void OnLoose()
         {
             SetFinishedState(false);
-            _groundSpawner.Reset();
         }
 
         private void OnWin()
