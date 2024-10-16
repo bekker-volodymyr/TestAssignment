@@ -1,4 +1,5 @@
 using TestAssignment.Car;
+using TestAssignment.Effects;
 using TestAssignment.UI;
 using UnityEngine;
 using UnityEngine.AI;
@@ -26,6 +27,8 @@ namespace TestAssignment.Enemies
         [SerializeField] private Animator _animator;
 
         [SerializeField] private HealthBar _healthBar;
+
+        [SerializeField] private ParticleSystem _deathParticles;
 
         private void Awake()
         {
@@ -104,6 +107,8 @@ namespace TestAssignment.Enemies
 
         private void Death()
         {
+            ParticleManager.Instance.PlayParticle(ParticleType.EnemyDeath, transform.position);
+
             _spawner.ReturnEnemy(this);
         }
 
