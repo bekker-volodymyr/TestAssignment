@@ -11,8 +11,8 @@ namespace TestAssignment.Enemies
         [SerializeField] private float _spawnRate = 1.4f;
         [SerializeField] private float _spawnDistance = 75f;    // Distance from player when spawn
         [SerializeField] private float _spawnRandRangeX = 25f;
-        [SerializeField] private EnemyPool _enemyPool;
         [SerializeField] private Enemy _enemyPrefab;
+
         private ObjectPool<Enemy> _pool;
 
         private List<Enemy> _spawnedEnemies = new List<Enemy>();
