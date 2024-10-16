@@ -12,6 +12,8 @@ namespace TestAssignment.Enemies
         [SerializeField] private float _spawnDistance = 75f;    // Distance from player when spawn
         [SerializeField] private float _spawnRandRangeX = 25f;
         [SerializeField] private EnemyPool _enemyPool;
+        [SerializeField] private Enemy _enemyPrefab;
+        private ObjectPool<Enemy> _pool;
 
         private List<Enemy> _spawnedEnemies = new List<Enemy>();
 
@@ -20,6 +22,8 @@ namespace TestAssignment.Enemies
 
         private void Start()
         {
+            _pool = new ObjectPool<Enemy>(_enemyPrefab);
+
             StartCoroutine(SpawnCoroutine());
         }
 
@@ -35,7 +39,7 @@ namespace TestAssignment.Enemies
 
         private void SpawnEnemy()
         {
-            Enemy enemy = _enemyPool.GetObject();
+            Enemy enemy = _pool.GetObject();
             enemy.SetSpawner(this);
             Vector3 spawnPoint = GameManager.Instance.Player.transform.position;
             spawnPoint += Vector3.forward * _spawnDistance;
@@ -57,7 +61,7 @@ namespace TestAssignment.Enemies
         {
             foreach (var enemy in _spawnedEnemies)
             {
-                _enemyPool.ReturnObject(enemy);
+                _pool.ReturnObject(enemy);
             }
             _spawnedEnemies.Clear();
         }
@@ -65,7 +69,7 @@ namespace TestAssignment.Enemies
         public void ReturnEnemy(Enemy enemy)
         {
             _spawnedEnemies.Remove(enemy);
-            _enemyPool.ReturnObject(enemy);
+            _pool.ReturnObject(enemy);
             _spawnCount--;
         }
     }

@@ -473,8 +473,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e2fc8e5178e4364ba211947324fd924, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _bulletPrefab: {fileID: 3989197780161644109, guid: eb167afc8ab53774898a71ad9c87e1e8, type: 3}
   _spawnPoint: {fileID: 626277653}
-  _bulletsPool: {fileID: 396021113}
   _fireRate: 0.5
 --- !u!1 &626277652
 GameObject:
@@ -1509,6 +1509,7 @@ MonoBehaviour:
   _spawnDistance: 100
   _spawnRandRangeX: 25
   _enemyPool: {fileID: 1974718836}
+  _enemyPrefab: {fileID: 921742217441467578, guid: 86a0c1e72963ff84289c5623510a5e77, type: 3}
 --- !u!1 &1221287808
 GameObject:
   m_ObjectHideFlags: 0

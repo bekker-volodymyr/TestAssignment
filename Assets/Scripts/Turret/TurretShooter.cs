@@ -1,17 +1,25 @@
 using System.Collections.Generic;
+using TestAssignment.Utils;
 using UnityEngine;
 
 namespace TestAssignment.Turret
 {
     public class TurretShooter : MonoBehaviour
     {
+        [SerializeField] private Bullet _bulletPrefab;
         [SerializeField] private Transform _spawnPoint;
-        [SerializeField] private BulletsPool _bulletsPool;
+
+        private ObjectPool<Bullet> _pool;
 
         [SerializeField] private float _fireRate = 0.8f;
         private float _timeSinceFire;
 
         private List<Bullet> _spawnedBullets = new List<Bullet>();
+
+        private void Start()
+        {
+            _pool = new ObjectPool<Bullet>(_bulletPrefab);
+        }
 
         private void Update()
         {
@@ -26,28 +34,36 @@ namespace TestAssignment.Turret
 
         private void SpawnBullet()
         {
-            Bullet bullet = _bulletsPool.GetObject();
-            bullet.transform.position = _spawnPoint.position;
-            bullet.transform.rotation = _spawnPoint.rotation;
+            Bullet bullet = _pool.GetObject();
 
-            _spawnedBullets.Add(bullet);
+            if (bullet != null)
+            {
+                bullet.transform.position = _spawnPoint.position;
+                bullet.transform.rotation = _spawnPoint.rotation;
 
-            bullet.SetTurret(this);
+                _spawnedBullets.Add(bullet);
+
+                bullet.SetTurret(this);
+            }
+            else
+            {
+                Debug.Log("Failed to recive object from pool");
+            }
         }
 
         public void Reset()
         {
             foreach (var bullet in _spawnedBullets)
             {
-                _bulletsPool.ReturnObject(bullet);
+                _pool.ReturnObject(bullet);
             }
             _spawnedBullets.Clear();
         }
 
         internal void ReturnBullet(Bullet bullet)
         {
+            _pool.ReturnObject(bullet);
             _spawnedBullets.Remove(bullet);
-            _bulletsPool.ReturnObject(bullet);
         }
     }
 }

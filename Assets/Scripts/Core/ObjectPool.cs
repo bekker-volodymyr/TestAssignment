@@ -4,43 +4,44 @@ using UnityEngine;
 
 namespace TestAssignment.Utils
 {
-    public class ObjectPool : MonoBehaviour
+    public class ObjectPool<T> where T : MonoBehaviour
     {
-        [SerializeField] private GameObject _objPrefab;
-        [SerializeField] private int _initSize = 10;
+        private T _objPrefab;
+        private int _initSize = 10;
 
-        private Queue<GameObject> _pool = new Queue<GameObject>();
+        private Queue<T> _pool = new Queue<T>();
 
-        public event Action<GameObject> ObjectReturnedEvent;
+        public event Action<T> ObjectReturnedEvent;
 
-        void Start()
+        public ObjectPool(T objPrefab)
         {
+            _objPrefab = objPrefab;
             for (int i = 0; i < _initSize; i++)
             {
-                GameObject obj = Instantiate(_objPrefab);
-                obj.SetActive(false);
+                T obj = GameObject.Instantiate(_objPrefab);
+                obj.gameObject.SetActive(false);
                 _pool.Enqueue(obj);
             }
         }
 
-        public GameObject GetObject()
+        public T GetObject()
         {
             if (_pool.Count > 0)
             {
-                GameObject obj = _pool.Dequeue();
-                obj.SetActive(true);
+                T obj = _pool.Dequeue();
+                obj.gameObject.SetActive(true);
                 return obj;
             }
             else
             {
-                GameObject obj = Instantiate(_objPrefab);
+                T obj = GameObject.Instantiate(_objPrefab);
                 return obj;
             }
         }
 
-        public void ReturnObject(GameObject obj)
+        public void ReturnObject(T obj)
         {
-            obj.SetActive(false);
+            obj.gameObject.SetActive(false);
             _pool.Enqueue(obj);
             ObjectReturnedEvent?.Invoke(obj);
         }
